@@ -21,10 +21,15 @@ class Board:
         for j in range(self.height):
             for i in range(self.width):
                 if self.board[j][i] == 10:
-                    pygame.draw.rect(screen, pygame.Color('red'), (
+                    pygame.draw.rect(screen, pygame.Color('green'), (
                         self.left + i * self.cell_size + 1, self.top + j * self.cell_size + 1,
                         self.cell_size - 1,
                         self.cell_size - 1))
+                elif self.board[j][i] != -1:
+                    font = pygame.font.Font(None, self.cell_size)
+                    text = font.render(str(self.board[j][i]), True, (255, 0, 0))
+                    screen.blit(text, (
+                        self.left + i * self.cell_size + 2, self.top + j * self.cell_size + 2))
                 pygame.draw.rect(screen, color, (
                     self.left + i * self.cell_size, self.top + j * self.cell_size, self.cell_size,
                     self.cell_size), 1)
@@ -40,7 +45,8 @@ class Board:
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
-        self.on_click(cell)
+        if cell:
+            self.on_click(cell)
 
 
 class Sapper(Board):
@@ -55,10 +61,10 @@ class Sapper(Board):
                 count += 1
 
     def on_click(self, cell_coords):
-        super().on_click(cell_coords)
         if cell_coords:
-            count = self.count_near_mines(cell_coords[0], cell_coords[1])
-            self.open_cell(cell_coords, count)
+            x, y = cell_coords
+            count = self.count_near_mines(x, y)
+            self.open_cell(x, y, count)
 
     def count_near_mines(self, x, y):
         count = 0
@@ -71,8 +77,8 @@ class Sapper(Board):
                     count += 1
         return count
 
-    def open_cell(self, cell_coords, count):
-        pass
+    def open_cell(self, x, y, count):
+        self.board[y][x] = count
 
 
 if __name__ == '__main__':
