@@ -21,13 +21,13 @@ class Board:
         for j in range(self.height):
             for i in range(self.width):
                 if self.board[j][i] == 10:
-                    pygame.draw.rect(screen, pygame.Color('green'), (
+                    pygame.draw.rect(screen, pygame.Color('red'), (
                         self.left + i * self.cell_size + 1, self.top + j * self.cell_size + 1,
                         self.cell_size - 1,
                         self.cell_size - 1))
                 elif self.board[j][i] != -1:
                     font = pygame.font.Font(None, self.cell_size)
-                    text = font.render(str(self.board[j][i]), True, (255, 0, 0))
+                    text = font.render(str(self.board[j][i]), True, (0, 255, 0))
                     screen.blit(text, (
                         self.left + i * self.cell_size + 2, self.top + j * self.cell_size + 2))
                 pygame.draw.rect(screen, color, (
